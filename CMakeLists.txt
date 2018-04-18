@@ -15,10 +15,11 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # aggiungo la libreria specifica
 add_library(Utility include/Utility/utility.c)
+add_library(UtilityMPI include/Utility/utilityMPI.c)
 add_library(Mat_Mat include/Mat_Mat/mat_mat.c)
 
 add_executable(HW1 main.c)
 
 # linko le librerie (m sarebbe math.h)
-target_link_libraries(HW1 Utility Mat_Mat m ${MPI_C_LIBRARIES})
+target_link_libraries(HW1 Utility UtilityMPI Mat_Mat m ${MPI_C_LIBRARIES})
 

@@ -18,4 +18,7 @@ void fill_vector(double* vector, int n);
 int* find_divisors(int n); /* i divisori saranno le coppie adiacenti nell'array
                                 nella prima cella ho #celle occupate riempite*/
 
+int* find_best_value_for_grid(int n); /*dato un numero N di proc cerca la composizione
+                                        più "equilibrata" della griglia*/
+
 double get_cur_time();

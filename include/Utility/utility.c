@@ -25,7 +25,7 @@ void fill_vector(double* vector, int n){
     if(vector==NULL)
         return;
     for (int i = 0; i < n; i++)
-        vector[i]=rand_from(10,30);
+        vector[i]=rand_from(MIN,MAX);
 }
 
 //Passare null per fare il printf
@@ -87,4 +87,18 @@ int* find_divisors(int n){
 
     array[0]=busy;
     return array;
+}
+
+int* find_best_value_for_grid(int n){
+    int* partitions=find_divisors(n),
+         *dims=calloc(2, sizeof(int));
+    dims[0]=partitions[1];
+    dims[1]=partitions[2];
+    for (int i = 3; i < partitions[0]; i+=2) {
+        if (abs(partitions[i] - partitions[i + 1]) < abs(dims[0] - dims[1])) {
+            dims[0] = partitions[i];
+            dims[1] = partitions[i + 1];
+        }
+    }
+    return dims;
 }

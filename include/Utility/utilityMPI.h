@@ -14,4 +14,8 @@ void createGridProc(int row, int col, int* coords, MPI_Comm* grid);
 
 void splitGrid(MPI_Comm grid, MPI_Comm*row,MPI_Comm*col);
 
+double takeStartTime(MPI_Comm comm);
+
+double takeEndTime(MPI_Comm comm);
+
 #endif //HW1_UTILITYMPI_H

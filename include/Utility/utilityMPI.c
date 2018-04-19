@@ -3,7 +3,7 @@
 //
 
 #include "utilityMPI.h"
-#include <mpi.h>
+
 void initMPIEnvironment(int argc, char** argv, int* nProc, int * idProc){
     int status=MPI_Init(&argc,&argv);
     if (status!=MPI_SUCCESS)
@@ -33,6 +33,17 @@ void splitGrid(MPI_Comm grid, MPI_Comm*row,MPI_Comm*col){
     remain[0]=1;
     remain[1]=0;
     MPI_Cart_sub(grid,remain,col);
+}
 
+double takeStartTime(MPI_Comm comm){
+    MPI_Barrier(comm);
+    return MPI_Wtime();
+}
 
+double takeEndTime(MPI_Comm comm){
+    double localEndTime=0, endTime=0;
+    localEndTime=MPI_Wtime();
+    MPI_Reduce(&localEndTime,&endTime,1,MPI_DOUBLE,MPI_MAX,0,comm);
+    //TODO ma in cosa misura Wtime???
+    return endTime;
 }

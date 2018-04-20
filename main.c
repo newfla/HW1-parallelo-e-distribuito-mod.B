@@ -2,8 +2,7 @@
 #include <Utility/utilityMPI.h>
 #include <Utility/utility.h>
 #include <stdlib.h>
-
-#define nThreads 8
+#include <Mat_Mat/mat_mat_distributed.h>
 
 int main(int argc, char *argv[]){
 
@@ -11,8 +10,9 @@ int main(int argc, char *argv[]){
     //Sezione dichiarazione variabili
     int idProc=0,
         nProc=0,
+        nThreads=1,
         coords[2],
-        N=128,
+        N,
         *dims;
 
     double *A,*B,*C,
@@ -40,10 +40,10 @@ int main(int argc, char *argv[]){
 
     //-----------------------------------
 
-
     //Preparazione matrici
 
     N=atoi(argv[1]); //TODO nel cluster sarà argv[0]???
+    nThreads = atoi(argv[2]);
     A=(double*)calloc(N*N, sizeof(double));
     B=(double*)calloc(N*N, sizeof(double));
     C=(double*)calloc(N*N, sizeof(double));
@@ -61,10 +61,13 @@ int main(int argc, char *argv[]){
 
     // TODO PARTE DI CALCOLO
 
+    SUMMA(rowComm, colComm, coords[0], coords[1], nThreads, N, N, N, N, N, N, (double(*)[])A, (double(*)[])B, (
+    double(*)[])C);
     //-----------------------------------
 
     //Presa tempo finale e stampa da parte di P0
     endTime=takeEndTime(gridComm);
+    endTime-=startTime;
     if (idProc==0) {
         clean_file(fileName);
         append_to_file(fileName,firstLine);

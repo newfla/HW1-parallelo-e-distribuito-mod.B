@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
         nProc=0,
         nThreads=1,
         coords[2],
-        N,
+        N=1,
         *dims;
 
     double *A,*B,*C,
@@ -29,6 +29,8 @@ int main(int argc, char *argv[]){
 
     //Inizializzazione ambiente MPI
 
+
+
     initMPIEnvironment(argc,argv,&nProc,&idProc);
 
     dims=find_best_value_for_grid(nProc);
@@ -37,12 +39,12 @@ int main(int argc, char *argv[]){
 
     splitGrid(gridComm,&rowComm,&colComm);
 
-
     //-----------------------------------
 
     //Preparazione matrici
 
     N=atoi(argv[1]); //TODO nel cluster sarà argv[0]???
+
     nThreads = atoi(argv[2]);
     A=(double*)calloc(N*N, sizeof(double));
     B=(double*)calloc(N*N, sizeof(double));
@@ -52,8 +54,6 @@ int main(int argc, char *argv[]){
     fill_vector(B,N*N);
 
     //-----------------------------------
-
-    printf("Hello, World %d,%d///%d!\n",coords[0],coords[1],N);
 
     //Presa tempo di inizio
 

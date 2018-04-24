@@ -1,4 +1,5 @@
 #include <pthread.h>
+#include "mat_mat.h"
 
 //Migliore
 void mat_mat_ikj(int n, int m, int p, int lda, int ldb, int ldc, double A[][lda], double B[][ldb], double C[][ldc]){

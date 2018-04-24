@@ -4,6 +4,8 @@
 
 #include "mat_mat_distributed.h"
 #include "mat_mat.h"
+#include "../Utility/utilityMPI.h"
+#include "stdio.h"
 
 
 void SUMMA(MPI_Comm rowComm, MPI_Comm colComm, int rowId, int colId, int nThreads, int n, int m, int p, int lda, int ldb, int ldc, double A[][lda],
@@ -13,32 +15,39 @@ void SUMMA(MPI_Comm rowComm, MPI_Comm colComm, int rowId, int colId, int nThread
 
     double A2[n][m], B2[m][p];
     double **Acalc, **Bcalc;
+    int ldacalc, ldbcalc;
 
     MPI_Comm_size(rowComm, &nRow);
     MPI_Comm_size(colComm, &nCol);
 
-
+    MPI_Barrier(colComm);
 
     for(int k=0; k<nRow; k++){
         //broadcast A[rowId][k] su riga rowId
         if(k==colId){
             //broadcast mia matrice verso gli altri
-            MPI_Bcast()
+            //MPI_Bcast()
+            matrixBroadcast(rowComm, k, lda, n, m, A);
+            ldacalc = lda;
             Acalc = A;
         }else{
             //ricevo mia matrice da processore k di riga
+            matrixBroadcast(rowComm, k, lda, n, m, A2);
+            ldacalc = m;
             Acalc = A2;
         }
 
         //broadcast B[k][colId] su colonna colId
         if(k==rowId){
-
+            matrixBroadcast(colComm, k, ldb, m, p, B);
+            ldbcalc = ldb;
             Bcalc = B;
         }else{
-
+            matrixBroadcast(colComm, k, ldb, m, p, B2);
+            ldbcalc = p;
             Bcalc = B2;
         }
 
-        mat_mat_threads(nThreads, 1, n, m, p, lda, ldb, ldc, Acalc, Bcalc, C);
+        mat_mat_threads(nThreads, 1, n, m, p, ldacalc, ldbcalc, ldc, (double(*)[]) Acalc, (double(*)[])Bcalc, C);
     }
 }

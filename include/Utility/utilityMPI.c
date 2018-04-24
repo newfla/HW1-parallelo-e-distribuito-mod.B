@@ -12,6 +12,31 @@ void initMPIEnvironment(int argc, char** argv, int* nProc, int * idProc){
     MPI_Comm_size(MPI_COMM_WORLD,nProc);
 }
 
+void matrixBroadcast(MPI_Comm comm, int proc, int lda, int n, int m, double A[][lda]){
+    double tmp[n][m];
+    int myid;
+
+    MPI_Comm_rank(comm, &myid);
+
+    if(proc==myid) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                tmp[i][j] = A[i][j];
+            }
+        }
+    }
+
+    MPI_Bcast(tmp, n*m, MPI_DOUBLE,proc, comm);
+
+    if(myid!=proc){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                A[i][j]=tmp[i][j];
+            }
+        }
+    }
+}
+
 void finalizeMPIEnvironment(){
     MPI_Finalize();
 }

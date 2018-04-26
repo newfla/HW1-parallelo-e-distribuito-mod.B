@@ -1,0 +1,41 @@
+#!/bin/bash
+##########################
+#
+# The PBS directives #
+#
+##########################
+#PBS -q studenti
+#PBS -l nodes=8:ppn=8
+#PBS -N main
+#PBS -o main.csv
+#PBS -e main.err
+##########################################
+# -q coda su cui va eseguito il job #
+# -l numero di nodi richiesti #
+# -N nome job(stesso del file pbs) #
+# -o, -e nome files contenente l’output #
+##########################################
+
+
+#echo ------------------------------------------------------
+#echo 'This job is allocated on '${NCPU}' cpu(s)'
+#echo 'Job is running on node(s): '
+#cat $PBS_NODEFILE
+PBS_O_WORKDIR=$PBS_O_HOME/FBRG/HW1
+
+/usr/lib64/openmpi/1.4-gcc/bin/mpicc -std=c99 -O3 -pthread -o $PBS_O_WORKDIR/main $PBS_O_WORKDIR/*.c
+
+for NODES in 1 2 4 8 
+do
+ for PPN in 1 2 4 8 
+ do
+  for n in {0..7}
+ do
+
+dim=$((240+$((40*$n))))
+/usr/lib64/openmpi/1.4-gcc/bin/mpirun -np $NODES $PBS_O_WORKDIR/HW1 $dim $PPN
+cat $PBS_O_WORKDIR/main.csv >> $PBS_O_WORKDIR/mainTot.csv
+
+  done
+ done
+done

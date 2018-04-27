@@ -33,7 +33,7 @@ do
  do
 
 dim=$((240+$((40*$n))))
-/usr/lib64/openmpi/1.4-gcc/bin/mpirun -np $NODES $PBS_O_WORKDIR/HW1 $dim $PPN
+/usr/lib64/openmpi/1.4-gcc/bin/mpirun -np $NODES $PBS_O_WORKDIR/main $dim $PPN
 cat $PBS_O_WORKDIR/main.csv >> $PBS_O_WORKDIR/mainTot.csv
 
   done

@@ -2,6 +2,7 @@
 // Created by bizzi on 18/04/18.
 //
 
+#include <stdio.h>
 #include "utilityMPI.h"
 
 void initMPIEnvironment(int argc, char** argv, int* nProc, int * idProc){
@@ -15,7 +16,6 @@ void initMPIEnvironment(int argc, char** argv, int* nProc, int * idProc){
 void matrixBroadcast(MPI_Comm comm, int proc, int lda, int n, int m, double A[][lda]){
     double tmp[n][m];
     int myid;
-
     MPI_Comm_rank(comm, &myid);
 
     if(proc==myid) {
@@ -46,8 +46,8 @@ void createGridProc(int row, int col, int* coords, MPI_Comm* grid){
         dims[]={row,col},
         gridRank=0,
         status=MPI_Cart_create(MPI_COMM_WORLD,2,dims,period,1,grid);
-    if (status!=MPI_SUCCESS)
-        return;
+    if (status!=MPI_SUCCESS){
+        return;}
     MPI_Comm_rank(*grid,&gridRank);
     MPI_Cart_coords(*grid,gridRank,2,coords);
 }

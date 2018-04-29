@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
         nThreads=1,
         coords[2],
         N=1,
-        *dims;
+        *dims=NULL;
 
     double *A,*B,*C,
             startTime, endTime;
@@ -36,6 +36,7 @@ int main(int argc, char *argv[]){
     dims=find_best_value_for_grid(nProc);
 
     createGridProc(dims[0],dims[1],coords,&gridComm);
+    printf("dimensions %d-%d\n",dims[0],dims[1]);
 
     splitGrid(gridComm,&rowComm,&colComm);
 
@@ -43,7 +44,7 @@ int main(int argc, char *argv[]){
 
     //Preparazione matrici
 
-    N=atoi(argv[1]); //TODO nel cluster sarà argv[0]???
+    N=atoi(argv[1]);
 
     nThreads = atoi(argv[2]);
     A=(double*)calloc(N*N, sizeof(double));
@@ -59,7 +60,7 @@ int main(int argc, char *argv[]){
 
     startTime=takeStartTime(gridComm);
 
-    // TODO PARTE DI CALCOLO
+
 
     SUMMA(rowComm, colComm, coords[0], coords[1], nThreads, N, N, N, N, N, N, (double(*)[])A, (double(*)[])B, (
     double(*)[])C);
@@ -72,7 +73,7 @@ int main(int argc, char *argv[]){
         clean_file(fileName);
         append_to_file(fileName,firstLine);
         sprintf(result,"%d;%d;%d;%.2f",nProc,nThreads,N*nProc,endTime);
-        append_to_file(fileName,result);
+       // append_to_file(fileName,result);
     }
 
     //-----------------------------------

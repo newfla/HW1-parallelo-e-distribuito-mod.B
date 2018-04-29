@@ -22,3 +22,4 @@ int* find_best_value_for_grid(int n); /*dato un numero N di proc cerca la compos
                                         più "equilibrata" della griglia*/
 
 double get_cur_time();
+

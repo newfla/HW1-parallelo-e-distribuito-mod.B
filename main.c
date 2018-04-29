@@ -36,7 +36,7 @@ int main(int argc, char *argv[]){
     dims=find_best_value_for_grid(nProc);
 
     createGridProc(dims[0],dims[1],coords,&gridComm);
-    printf("dimensions %d-%d\n",dims[0],dims[1]);
+    //printf("dimensions %d-%d\n",dims[0],dims[1]);
 
     splitGrid(gridComm,&rowComm,&colComm);
 
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]){
         clean_file(fileName);
         append_to_file(fileName,firstLine);
         sprintf(result,"%d;%d;%d;%.2f",nProc,nThreads,N*nProc,endTime);
-       // append_to_file(fileName,result);
+        append_to_file(fileName,result);
     }
 
     //-----------------------------------

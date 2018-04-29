@@ -2,7 +2,6 @@
 // Created by bizzi on 18/04/18.
 //
 
-#include <stdio.h>
 #include "utilityMPI.h"
 
 void initMPIEnvironment(int argc, char** argv, int* nProc, int * idProc){
@@ -71,4 +70,14 @@ double takeEndTime(MPI_Comm comm){
     MPI_Reduce(&localEndTime,&endTime,1,MPI_DOUBLE,MPI_MAX,0,comm);
     //TODO ma in cosa misura Wtime???
     return endTime;
+}
+
+int mod_number(int k, int max){
+    int rest=k-max;
+    if (rest>0)
+        return rest-1;
+    else if(rest==0)
+        return max-1;
+    else
+        return k;
 }

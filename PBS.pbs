@@ -25,7 +25,7 @@ PBS_O_WORKDIR=$PBS_O_HOME/FBRG/HW1
 
 /usr/lib64/openmpi/1.4-gcc/bin/mpicc -std=c99 -O3 -pthread -o $PBS_O_WORKDIR/main $PBS_O_WORKDIR/*.c
 
-for NODES in 1 2 4 8 
+for NODES in 1 4
 do
  for PPN in 1 2 4 8 
  do
@@ -33,7 +33,9 @@ do
  do
 
 dim=$((240+$((40*$n))))
+
 /usr/lib64/openmpi/1.4-gcc/bin/mpirun -np $NODES $PBS_O_WORKDIR/main $dim $PPN
+
 cat $PBS_O_WORKDIR/main.csv >> $PBS_O_WORKDIR/mainTot.csv
 
   done

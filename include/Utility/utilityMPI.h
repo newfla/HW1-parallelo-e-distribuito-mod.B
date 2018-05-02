@@ -20,6 +20,5 @@ double takeStartTime(MPI_Comm comm);
 
 double takeEndTime(MPI_Comm comm);
 
-int mod_number(int k, int max);
 
 #endif //HW1_UTILITYMPI_H

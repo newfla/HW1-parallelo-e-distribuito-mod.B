@@ -25,6 +25,8 @@ PBS_O_WORKDIR=$PBS_O_HOME/FBRG/HW1
 
 /usr/lib64/openmpi/1.4-gcc/bin/mpicc -std=c99 -O3 -pthread -o $PBS_O_WORKDIR/main $PBS_O_WORKDIR/*.c
 
+echo "Nodes;Threads;Dimension;Time" > main.csv
+
 for NODES in 1 4
 do
  for PPN in 1 2 4 8 

@@ -71,8 +71,8 @@ int main(int argc, char *argv[]){
     endTime-=startTime;
     if (idProc==0) {
         clean_file(fileName);
-        append_to_file(fileName,firstLine);
-        sprintf(result,"%d;%d;%d;%.2f",nProc,nThreads,N*nProc,endTime);
+        //append_to_file(fileName,firstLine);
+        sprintf(result,"%d;%d;%d;%.5f",nProc,nThreads,N*nProc,endTime);
         append_to_file(fileName,result);
     }
 

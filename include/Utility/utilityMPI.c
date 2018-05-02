@@ -71,13 +71,3 @@ double takeEndTime(MPI_Comm comm){
     //TODO ma in cosa misura Wtime???
     return endTime;
 }
-
-int mod_number(int k, int max){
-    int rest=k-max;
-    if (rest>0)
-        return rest-1;
-    else if(rest==0)
-        return max-1;
-    else
-        return k;
-}

@@ -24,27 +24,27 @@ void SUMMA(MPI_Comm rowComm, MPI_Comm colComm, int rowId, int colId, int nThread
     for(int k=0; k<nRow; k++){
 
         //broadcast A[rowId][k] su riga rowId
-        if(mod_number(k,nRow)==colId){
+        if(k==colId){
             //broadcast mia matrice verso gli altri
-            matrixBroadcast(rowComm, mod_number(k,nRow), lda, n, m, A);
+            matrixBroadcast(rowComm, k, lda, n, m, A);
             ldacalc = lda;
             Acalc = A;
         }else{
             //ricevo mia matrice da processore k di riga
-            matrixBroadcast(rowComm, mod_number(k,nRow), lda, n, m, A2);
+            matrixBroadcast(rowComm, k, lda, n, m, A2);
             ldacalc = m;
             Acalc = A2;
         }
 
         //printf("Valore K %d-valore maxColCOmm  %d\n",k, nCol);
         //broadcast B[k][colId] su colonna colId
-        if(mod_number(k,nCol)==rowId){
+        if(k==rowId){
 
-            matrixBroadcast(colComm, mod_number(k,nCol), ldb, m, p, B);
+            matrixBroadcast(colComm, k, ldb, m, p, B);
             ldbcalc = ldb;
             Bcalc = B;
         }else{
-            matrixBroadcast(colComm, mod_number(k,nCol), ldb, m, p, B2);
+            matrixBroadcast(colComm, k, ldb, m, p, B2);
             /*TODO il problema è questo Bcast. Aspetto dal proc con id=3 su colCOmm che ha dim=2*/
             ldbcalc = p;
             Bcalc = B2;

@@ -20,5 +20,4 @@ double takeStartTime(MPI_Comm comm);
 
 double takeEndTime(MPI_Comm comm);
 
-
 #endif //HW1_UTILITYMPI_H

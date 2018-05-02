@@ -19,7 +19,6 @@ void SUMMA(MPI_Comm rowComm, MPI_Comm colComm, int rowId, int colId, int nThread
 
     MPI_Comm_size(rowComm, &nRow);
     MPI_Comm_size(colComm, &nCol);
-    //printf("row:%d-col:%d\n",nRow,nCol);
 
     for(int k=0; k<nRow; k++){
 
@@ -36,7 +35,6 @@ void SUMMA(MPI_Comm rowComm, MPI_Comm colComm, int rowId, int colId, int nThread
             Acalc = A2;
         }
 
-        //printf("Valore K %d-valore maxColCOmm  %d\n",k, nCol);
         //broadcast B[k][colId] su colonna colId
         if(k==rowId){
 
@@ -45,7 +43,6 @@ void SUMMA(MPI_Comm rowComm, MPI_Comm colComm, int rowId, int colId, int nThread
             Bcalc = B;
         }else{
             matrixBroadcast(colComm, k, ldb, m, p, B2);
-            /*TODO il problema è questo Bcast. Aspetto dal proc con id=3 su colCOmm che ha dim=2*/
             ldbcalc = p;
             Bcalc = B2;
         }

@@ -84,7 +84,6 @@ int* find_divisors(int n){
             array[++busy] = n / i;
         }
     }
-
     array[0]=busy;
     return array;
 }
@@ -100,5 +99,6 @@ int* find_best_value_for_grid(int n){
             dims[1] = partitions[i + 1];
         }
     }
+    free(partitions);
     return dims;
 }

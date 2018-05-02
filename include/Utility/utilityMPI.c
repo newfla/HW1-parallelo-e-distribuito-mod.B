@@ -5,9 +5,7 @@
 #include "utilityMPI.h"
 
 void initMPIEnvironment(int argc, char** argv, int* nProc, int * idProc){
-    int status=MPI_Init(&argc,&argv);
-    if (status!=MPI_SUCCESS)
-        return;
+    MPI_Init(&argc,&argv);
     MPI_Comm_rank(MPI_COMM_WORLD,idProc);
     MPI_Comm_size(MPI_COMM_WORLD,nProc);
 }
@@ -43,10 +41,8 @@ void finalizeMPIEnvironment(){
 void createGridProc(int row, int col, int* coords, MPI_Comm* grid){
     int period[]={1,1},
         dims[]={row,col},
-        gridRank=0,
-        status=MPI_Cart_create(MPI_COMM_WORLD,2,dims,period,1,grid);
-    if (status!=MPI_SUCCESS){
-        return;}
+        gridRank=0;
+    MPI_Cart_create(MPI_COMM_WORLD,2,dims,period,1,grid);
     MPI_Comm_rank(*grid,&gridRank);
     MPI_Cart_coords(*grid,gridRank,2,coords);
 }
@@ -68,6 +64,5 @@ double takeEndTime(MPI_Comm comm){
     double localEndTime=0, endTime=0;
     localEndTime=MPI_Wtime();
     MPI_Reduce(&localEndTime,&endTime,1,MPI_DOUBLE,MPI_MAX,0,comm);
-    //TODO ma in cosa misura Wtime???
     return endTime;
 }

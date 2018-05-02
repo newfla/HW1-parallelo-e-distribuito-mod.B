@@ -36,7 +36,6 @@ int main(int argc, char *argv[]){
     dims=find_best_value_for_grid(nProc);
 
     createGridProc(dims[0],dims[1],coords,&gridComm);
-    //printf("dimensions %d-%d\n",dims[0],dims[1]);
 
     splitGrid(gridComm,&rowComm,&colComm);
 
@@ -60,8 +59,6 @@ int main(int argc, char *argv[]){
 
     startTime=takeStartTime(gridComm);
 
-
-
     SUMMA(rowComm, colComm, coords[0], coords[1], nThreads, N, N, N, N, N, N, (double(*)[])A, (double(*)[])B, (
     double(*)[])C);
     //-----------------------------------
@@ -79,7 +76,9 @@ int main(int argc, char *argv[]){
     //-----------------------------------
 
     //Uscita da ambiente MPI
-
+    free(A);
+    free(B);
+    free(C);
     finalizeMPIEnvironment();
 
     return 0;
